@@ -63,12 +63,18 @@ LazyLoad=function(k){function p(b,a){var g=k.createElement(b),c;for(c in a)a.has
     function drupalchatForceLoad() {
         (function($){
             $.post(Drupal.settings.drupalchat.exurl ,function(data) {
+                    $.post(Drupal.settings.drupalchat.exurl ,function(data) {
+                if(typeof(data) === "string") {
+                    if(typeof(JSON) !== "undefined") {
+                        data = JSON.parse(data);
+                    }
+                }
                 drupalchatLoad(data);
-
+                if(Drupal.settings.drupalchat.chat_type === '2') {
                     drupalchatCreateCookie('iflychat_key', data.key, 30);
                     drupalchatCreateCookie('iflychat_css', data.css, 30);
                     drupalchatCreateCookie('iflychat_time', new Date().getTime(), 30);
-
+                }
             });
         })(jQuery);
     }
