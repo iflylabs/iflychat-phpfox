@@ -40,14 +40,17 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
     //$this->_EXTERNAL_HOST = 'http://api' . (Phpfox::isParam('iflychat.ext_d_i'))?(Phpfox::getParam('iflychat.ext_d_i')):('') . '.iflychat.com';
     //echo Phpfox::getParam('iflychat.api_key');
     //exit;
-    $this->_EXTERNAL_HOST = 'http://api2' . '.iflychat.com';
+    $this->_EXTERNAL_HOST = 'http://api' . $this->_get_ext_d_i() .'.iflychat.com';
     return $this->_EXTERNAL_HOST;
   }
   
   private function _get_external_a_host() {
     //$this->_EXTERNAL_A_HOST = 'https://api' . (Phpfox::isParam('iflychat.ext_d_i'))?(Phpfox::getParam('iflychat.ext_d_i')):('') . '.iflychat.com';
-    $this->_EXTERNAL_A_HOST = 'https://api2' . '.iflychat.com';
+    $this->_EXTERNAL_A_HOST = 'https://api' . $this->_get_ext_d_i()  . '.iflychat.com';
     return $this->_EXTERNAL_A_HOST;
+  }
+private function _get_ext_d_i() {
+    return Phpfox::getParam('iflychat.ext_d_i');
   }
   
 	private function _return_pic_url() {
@@ -413,7 +416,11 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
 			  'open_chatlist_default' => (!Phpfox::getParam('iflychat.minimize_chat_user_list'))?'1':'2',
 			  'admin' => Phpfox::isAdmin()?'1':'0',
 			  'exurl' => Phpfox::getLib('url')->makeUrl('iflychat.auth'),
-        'renderImageInline' => (Phpfox::getParam('iflychat.allow_render_images'))?'1':'2',
+              'renderImageInline' => (Phpfox::getParam('iflychat.allow_render_images'))?'1':'2',
+	      'searchBar' => (Phpfox::getParam('iflychat.enable_search_bar'))?'1':'2',
+              'mobileWebUrl' => Phpfox::getLib('url')->makeUrl('iflychat.mobauth'),
+              'theme' => Phpfox::getParam('iflychat.theme'),
+              'chat_type' => '2'
 		  );
 
       if($this->_get_use_stop_word_list()!="1") {
@@ -456,7 +463,7 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
       $my_settings['text_clear_room'] = Phpfox::getPhrase('iflychat.text_clear_room');
 	    if(Phpfox::isAdmin()) {
         $my_settings['admin'] = "1";
-        //$my_settings['arole'] = user_roles();
+        $my_settings['arole'] = $this->getUserRoles();
 		    $my_settings['text_ban'] = Phpfox::getPhrase('iflychat.text_ban');
 		    $my_settings['text_kick'] = Phpfox::getPhrase('iflychat.text_kick');
 		    $my_settings['text_ban_window_title'] = Phpfox::getPhrase('iflychat.text_ban_window_title');
@@ -485,6 +492,30 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
 		  $json['uname'] = $this->_get_user_name();
 		  $json['uid'] = $this->_get_user_id();
 		  return $json;
+}
+	}
+
+	public function mobAuth()
+	{
+		$is_https = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on';
+  	$data = array('settings' => array());
+  	$data['settings']['authUrl'] = Phpfox::getLib('url')->makeUrl('iflychat.auth');
+  	$data['settings']['host'] = (($is_https)?($this->_get_external_a_host()):($this->_get_external_host()));
+  	$data['settings']['port'] = (($is_https)?($this->_EXTERNAL_A_PORT):($this->_EXTERNAL_PORT));
+  	$data = json_encode($data);
+  	$options = array(
+  		'method' => 'POST',
+  		'data' => $data,
+  		'timeout' => 15,
+  		'headers' => array('Content-Type' => 'application/json'),
+  	);
+ 		$result = $this->_iflychat_extended_http_request($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT .  '/m/v1/app', $options);
+  	if($result->code == 200) {
+    	//$result = json_decode($result, true);
+    	return $result->data;
+  	}
+  	else {
+    	return null;
     }
 	}
 
@@ -509,6 +540,10 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
 	  'validState' => array('available','offline','busy','idle'),
 	  'rel' => (Phpfox::getParam('iflychat.enable_friends'))?('1'):('0'),
   );
+//Sends user roles if user is admin
+    if($role=='admin') {
+        $data['allRoles'] = $this->getUserRoles();
+    }
   if(Phpfox::getParam('iflychat.enable_friends')) {
     $final_list = array();
     $final_list['1']['name'] = 'friend';
@@ -545,9 +580,14 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
   
   if($result->code == 200) {
     $result = json_decode($result->data);
-    /*if(isset($result['_i']) && (((Phpfox::isParam('iflychat.ext_d_i')) && ($result['_i']!=Phpfox::getParam('iflychat.ext_d_i'))) || !Phpfox::isParam('iflychat.ext_d_i'))) {
-	    Phpfox::setParam('iflychat.ext_d_i', $result['_i']);
-	  }*/
+   if(Phpfox::getLib('setting')->isParam('iflychat.ext_d_i') && $result->_i != Phpfox::getParam('iflychat.ext_d_i')) {
+        // echo Phpfox::getParam('iflychat.ext_d_i')."-";
+        // Phpfox::getLib('setting')->setParam('iflychat.ext_d_i', $result->_i);
+        $set = array('value_actual' => $result->_i);
+        $aRow = Phpfox::getLib('database')->update('phpfox_setting', $set, '`var_name` = \'ext_d_i\'');
+        // echo $result->_i;
+        Phpfox::getLib('cache')->remove('setting');	  
+}
     return $result;
   }
   else {
@@ -577,6 +617,8 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
 	    'ufc' => (Phpfox::getParam('iflychat.allow_user_font_color'))?('1'):('2'),
       'guest_prefix' => Phpfox::getParam('iflychat.anon_prefix'),
       'enable_guest_change_name' => (Phpfox::getParam('iflychat.anon_change_name'))?('1'):('2'),
+'file_attachment' => (Phpfox::getParam('iflychat.enable_file_attachment'))?('1'):('2'),
+      'mobile_browser_app' => (Phpfox::getParam('iflychat.enable_mobile_browser_app'))?('1'):('2'),
     );
     //print_r($data);
     $data = json_encode($data);
@@ -708,6 +750,60 @@ class Iflychat_Service_Iflychat extends Phpfox_Service
     else {
       return '1';
     }
+  }
+private function _get_path_visibility() {
+    $v = Phpfox::getParam('iflychat.path_visibility');
+    if($v == "Only the listed pages") {
+      return '2';
+    }
+    else {
+      return '1';
+    }
+  }
+
+  public function pathCheck() {
+    $page_match = FALSE;
+    if (trim(Phpfox::getParam('iflychat.path_pages')) !== '')
+    {
+      if(function_exists('mb_strtolower')) {
+        $pages = mb_strtolower(Phpfox::getParam('iflychat.path_pages'));
+        $path = mb_strtolower($_SERVER['REQUEST_URI']);
+      }
+      else {
+        $pages = strtolower(Phpfox::getParam('iflychat.path_pages'));
+        $path = strtolower($_SERVER['REQUEST_URI']);
+      }
+      $page_match = $this->_match_path($path, $pages);
+      $page_match = ($this->_get_path_visibility() === '1')?(!$page_match):$page_match;
+    }
+    else if($this->_get_path_visibility() == '1'){
+      $page_match = TRUE;
+    }
+    return $page_match;
+  }
+  
+  private function _match_path($path, $patterns) {
+    $to_replace = array(
+      '/(\r\n|\n)/',
+      '/\\\\\*/',
+    );
+    $replacements = array(
+      '|',
+      '.*',
+    );
+    $patterns_quoted = preg_quote($patterns, '/');
+    $regexps = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
+    return (bool) preg_match($regexps, $path);
+  }
+  private function getUserRoles(){
+      $arr = Phpfox::getService('user.group')->getAll();
+      $roleArr=array();
+      for($i=0;$i<sizeof($arr);$i++){
+          $roleArr +=  array($arr[$i]['user_group_id'] => $arr[$i]['title']);
+
+      }
+
+      return $roleArr;
   }
 } 
   
