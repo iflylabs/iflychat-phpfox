@@ -1,0 +1,67 @@
+<module>
+	<data>
+		<module_id>iflychat</module_id>
+		<product_id>iflychat</product_id>
+		<is_core>0</is_core>
+		<is_active>1</is_active>
+		<is_menu>0</is_menu>
+		<menu />
+		<phrase_var_name>module_iflychat</phrase_var_name>
+	</data>
+	<settings>
+		<setting group="" module_id="iflychat" is_hidden="0" type="string" var_name="api_key" phrase_var_name="setting_api_key" ordering="1" version_id="3.6.0" />
+		<setting group="" module_id="iflychat" is_hidden="0" type="large_string" var_name="path_pages" phrase_var_name="setting_path_pages" ordering="5" version_id="3.6.0" />
+		<setting group="" module_id="iflychat" is_hidden="0" type="boolean" var_name="enable_friends" phrase_var_name="setting_enable_friends" ordering="3" version_id="3.6.0">1</setting>
+		<setting group="" module_id="iflychat" is_hidden="0" type="string" var_name="app_id" phrase_var_name="setting_app_id" ordering="0" version_id="3.7.3" />
+		<setting group="" module_id="iflychat" is_hidden="0" type="large_string" var_name="admin_list" phrase_var_name="setting_admin_list" ordering="7" version_id="3.7.3" />
+		<setting group="" module_id="iflychat" is_hidden="0" type="large_string" var_name="moderartor_list" phrase_var_name="setting_moderartor_list" ordering="6" version_id="3.7.3" />
+		<setting group="" module_id="iflychat" is_hidden="0" type="boolean" var_name="toggle_cache" phrase_var_name="setting_toggle_cache" ordering="8" version_id="3.7.3">0</setting>
+		<setting group="" module_id="iflychat" is_hidden="0" type="drop" var_name="popup_chat" phrase_var_name="setting_popup_chat" ordering="4" version_id="3.7.3"><![CDATA[a:2:{s:7:"default";s:10:"Everywhere";s:6:"values";a:5:{i:0;s:10:"Everywhere";i:1;s:30:"Everywhere except those listed";i:2;s:13:"Frontend Only";i:3;s:21:"Only the listed pages";i:4;s:7:"Disable";}}]]></setting>
+		<setting group="" module_id="iflychat" is_hidden="0" type="drop" var_name="display_name" phrase_var_name="setting_display_name" ordering="2" version_id="3.7.3"><![CDATA[a:2:{s:7:"default";s:12:"Display Name";s:6:"values";a:2:{i:0;s:12:"Display Name";i:1;s:8:"Username";}}]]></setting>
+		<setting group="" module_id="iflychat" is_hidden="1" type="string" var_name="ext_d_i" phrase_var_name="setting_ext_d_i" ordering="1" version_id="3.6.0" />
+		<setting group="" module_id="iflychat" is_hidden="1" type="string" var_name="anon_prefix" phrase_var_name="setting_anon_prefix" ordering="1" version_id="3.6.0">Guest</setting>
+		<setting group="" module_id="iflychat" is_hidden="1" type="drop" var_name="anon_use_name" phrase_var_name="setting_anon_use_name" ordering="1" version_id="3.6.0"><![CDATA[a:2:{s:7:"default";s:4:"Name";s:6:"values";a:2:{i:0;s:4:"Name";i:1;s:6:"Number";}}]]></setting>
+		<setting group="" module_id="iflychat" is_hidden="1" type="boolean" var_name="anon_change_name" phrase_var_name="setting_anon_change_name" ordering="1" version_id="3.6.0">1</setting>
+		<setting group="" module_id="iflychat" is_hidden="1" type="boolean" var_name="allow_anon_links" phrase_var_name="setting_allow_anon_links" ordering="1" version_id="3.6.0">1</setting>
+	</settings>
+	<phrases>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="module_iflychat" added="1382252522">iFlyChat allows users of your PHPFox site to chat with each other privately or together in chat rooms. This is very useful for social networking sites, forums, blogs, etc. Additionally, it logs the user conversations so that they can be later viewed in message inbox.</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_api_key" added="1382259591"><![CDATA[<title>iFlyChat API Key</title><info>Please enter the API key by registering at iFlyChat.com.</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_anon_prefix" added="1383026105"><![CDATA[<title>Prefix to be used with anonymous user</title><info>Please specify the prefix to be used with anonymous user. It shouldn&#039;t be long. Ideally it should be between 4 to 7 characters.</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_anon_use_name" added="1383026815"><![CDATA[<title>Use random name or number for anonymous user</title><info>Select whether to use randomly generated name or number to assign to a new anonymous user</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_anon_change_name" added="1383026962"><![CDATA[<title>Allow anonymous user to set his/her name</title><info>Select whether to allow anonymous user to be able to change his/her name</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_enable_search_bar" added="1383031154"><![CDATA[<title>Show search bar in online user list</title><info>SSelect whether to show search bar in online user list</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_path_pages" added="1383044677"><![CDATA[<title>Pages</title><info>Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every personal blog. <front> is the front page.</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_allow_anon_links" added="1383070705"><![CDATA[<title>Apply above defined block hyperlinks settings only to anonymous users</title><info>Select whether to apply above defined block hyperlinks setting only to anonymous users</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="newmessage" added="1383134417">New chat message!</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_currently_offline" added="1383134863">drupalchat_user is currently offline.</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_is_typing" added="1383134970">drupalchat_user is typing...</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_close" added="1383135009">Close</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_minimize" added="1383135033">Minimize</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_mute" added="1383135146">Click to Mute</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_unmute" added="1383135199">Click to Unmute</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_available" added="1383135225">Available</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_idle" added="1383135301">Idle</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_busy" added="1383135319">Busy</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_offline" added="1383135338">Offline</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_lmm" added="1383135571">Load More Messages</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_nmm" added="1383135593">No More Messages</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_clear_room" added="1383135632">Clear all messages</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_ban" added="1383135675">Ban</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_kick" added="1383135704">Kick</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_ban_ip" added="1383135728">Ban IP</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_ban_window_title" added="1383135762">Banned Users</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_ban_window_default" added="1383135792">No users have been banned currently.</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_ban_window_loading" added="1383135820">Loading banned user list...</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_manage_rooms" added="1383135844">Manage Rooms</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_unban" added="1383135859">Unban</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="text_unban_ip" added="1383135885">Unban IP</phrase>
+		<phrase module_id="iflychat" version_id="3.6.0" var_name="setting_enable_friends" added="1384179294"><![CDATA[<title>Show only friends</title><info>Show only friends in the online user list</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_app_id" added="1493978789"><![CDATA[<title>iFlyChat APP ID</title><info>Please enter the APP ID by registering at iFlyChat.com</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_admin_list" added="1493978844"><![CDATA[<title>List of Admins</title><info>Specify PHPfox username of users who should be chat admininstrators (separated by comma)</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_moderartor_list" added="1493978884"><![CDATA[<title>List of Moderators</title><info>Specify PHPfox username of users who should be chat moderators (separated by comma)</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_toggle_cache" added="1493978925"><![CDATA[<title>Caching</title><info>Enable Session Caching</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_popup_chat" added="1493979072"><![CDATA[<title>Chat Visibility</title><info>Show Popup Chat</info>]]></phrase>
+		<phrase module_id="iflychat" version_id="3.7.3" var_name="setting_display_name" added="1493979126"><![CDATA[<title>Chat Display Name</title><info>Specify whether to use display name or username for logged-in user</info>]]></phrase>
+	</phrases>
+</module>

@@ -63,7 +63,6 @@ LazyLoad=function(k){function p(b,a){var g=k.createElement(b),c;for(c in a)a.has
     function drupalchatForceLoad() {
         (function($){
             $.post(Drupal.settings.drupalchat.exurl ,function(data) {
-                    $.post(Drupal.settings.drupalchat.exurl ,function(data) {
                 if(typeof(data) === "string") {
                     if(typeof(JSON) !== "undefined") {
                         data = JSON.parse(data);
@@ -133,7 +132,6 @@ $(document).ready(function(){
         else {
             drupalchatForceLoad();
         }
-
 });
 
 
