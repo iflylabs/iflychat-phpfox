@@ -919,7 +919,7 @@ private function _get_path_visibility() {
       if($this->_get_path_visibility() == '3') $page_match = !$page_match;
       if($this->_get_path_visibility() == '4') $page_match = $page_match;
     }
-    else if($this->_get_path_visibility() == '1'){
+    else if($this->_get_path_visibility() == '3'){
       $page_match = TRUE;
     }
     return $page_match;
