@@ -531,7 +531,7 @@ private function _get_ext_d_i() {
     		'exurl' => Phpfox::getLib('url')->makeUrl('iflychat.auth'),
     		'admin' => '0'
     		);
-    	return $my_settings;;
+    	return $my_settings;
     }
 	}
   
