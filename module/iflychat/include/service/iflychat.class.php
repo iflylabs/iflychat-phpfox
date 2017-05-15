@@ -547,13 +547,13 @@ private function _get_ext_d_i() {
 	    $data = array(
 	        'api_key' => Phpfox::getParam('iflychat.api_key')
 	    );
-	    $options = array(
-        'method' => 'POST',
-        'body' => $data,
-        'timeout' => 15,
-        'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
-        'sslverify' => false,
-    	);
+	    // $options = array(
+     //    'method' => 'POST',
+     //    'body' => $data,
+     //    'timeout' => 15,
+     //    'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+     //    'sslverify' => false,
+    	// );
 	    $result = $this->extendedHttpRequest($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT . '/api/1.1/token/'
 	        . $_SESSION['token'] . '/delete', $data, TRUE);
 	    session_unset();
@@ -716,12 +716,12 @@ private function _get_ext_d_i() {
   $user_data = $this->_get_user_auth();
   $data = array_merge($data, $user_data);
   $data = json_encode($data);
-  $options = array(
-    'method' => 'POST',
-    'data' => $data,
-    'timeout' => 15,
-    'headers' => array('Content-Type' => 'application/json'),
-  );
+  // $options = array(
+  //   'method' => 'POST',
+  //   'data' => $data,
+  //   'timeout' => 15,
+  //   'headers' => array('Content-Type' => 'application/json'),
+  // );
   
   $result = $this->extendedHttpRequest($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT .  '/api/1.1/token/generate', $data, FALSE);
   if($_SESSION['code'] == 200) {
