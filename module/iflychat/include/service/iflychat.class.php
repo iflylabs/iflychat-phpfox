@@ -87,11 +87,15 @@ private function _get_ext_d_i() {
 	// 	$timers[$name]['count'] = isset($timers[$name]['count']) ? ++$timers[$name]['count'] : 1;
 	// }
 
-	private function extendedHttpRequest($url, $data_json)
+	private function extendedHttpRequest($url, $data_json, $encode_bool)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        if($encode_bool){
+        	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+        }else{
+        	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        }
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -448,12 +452,12 @@ private function _get_ext_d_i() {
       }else{
       	$my_settings['visible'] = '0';
       }
+
       if(Phpfox::getParam('iflychat.toggle_cache')){
 			if (isset($_SESSION['token']) && !empty($_SESSION['token'])) {
 			    $my_settings['iflychat_auth_token'] = $_SESSION['token'];
 			}
 		}
-        // $my_settings['codee'] = $_SESSION['code'];
         $my_settings['dashboardUrl'] = "https://cdn.iflychat.com/apps/dashboard/#/settings/app?sessid=" . $_SESSION['token'] . "&hostName=api4.iflychat.com&hostPort=443";
       if (Phpfox::isUser()) {
             $my_settings['iflychat_auth_url'] = Phpfox::getLib('url')->makeUrl('iflychat.auth');
@@ -517,6 +521,9 @@ private function _get_ext_d_i() {
     
     }
     else {
+    	$this->iflychat_token_destroy();
+    	// $my_settings['iflychat_auth_token'] = $_SESSION['token'];
+    	// $my_settings['res1']= $_SESSION['res1'];
     	$my_settings = array(
     		'iflychat_external_cdn_host' => 'cdn.iflychat.com',
     		'visible' => '1',
@@ -534,6 +541,22 @@ private function _get_ext_d_i() {
 			$json = (array)$this->_get_auth();
 			return $json;
 		}	
+	}
+	private function iflychat_token_destroy()
+	{
+	    $data = array(
+	        'api_key' => Phpfox::getParam('iflychat.api_key')
+	    );
+	    $options = array(
+        'method' => 'POST',
+        'body' => $data,
+        'timeout' => 15,
+        'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+        'sslverify' => false,
+    	);
+	    $result = $this->extendedHttpRequest($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT . '/api/1.1/token/'
+	        . $_SESSION['token'] . '/delete', $data, TRUE);
+	    session_unset();
 	}
 
 	// public function mobAuth()
@@ -700,7 +723,7 @@ private function _get_ext_d_i() {
     'headers' => array('Content-Type' => 'application/json'),
   );
   
-  $result = $this->extendedHttpRequest($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT .  '/api/1.1/token/generate', $data);
+  $result = $this->extendedHttpRequest($this->_get_external_a_host() . ':' . $this->_EXTERNAL_A_PORT .  '/api/1.1/token/generate', $data, FALSE);
   if($_SESSION['code'] == 200) {
     // $result = json_decode($result->data);
     $_SESSION['token'] = $result->key;
